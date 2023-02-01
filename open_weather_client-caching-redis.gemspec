@@ -5,6 +5,7 @@ require_relative 'lib/open_weather_client-caching-redis/caching/redis/version'
 Gem::Specification.new do |spec|
   spec.name = 'open_weather_client-caching-redis'
   spec.version = OpenWeatherClient::Caching::Redis::VERSION
+  spec.required_ruby_version = '>= 3.0.0'
   spec.authors = ['Lucas Keune']
   spec.email = ['lucas.keune@qurasoft.de']
 
@@ -12,7 +13,6 @@ Gem::Specification.new do |spec|
   spec.description = ''
   spec.homepage = 'https://github.com/Qurasoft/open_weather_client-caching-redis'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 3.0.0'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/Qurasoft/open_weather_client-caching-redis'
