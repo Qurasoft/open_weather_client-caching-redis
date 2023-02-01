@@ -23,10 +23,6 @@ module OpenWeatherClient
 
       private
 
-      def cache_key(lat, lon, time)
-        "#{lat}:#{lon}:#{time.strftime('%Y-%m-%dT%H')}"
-      end
-
       def caching_get(key)
         JSON.parse(redis.get(key))
       end
