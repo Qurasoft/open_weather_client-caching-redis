@@ -3,6 +3,8 @@
 require 'open_weather_client/configuration'
 
 module OpenWeatherClient
+  ##
+  # Configuratin of OpenWeatherClient
   class Configuration
     # [Integer] db of the redis server used for caching
     attr_accessor :db
