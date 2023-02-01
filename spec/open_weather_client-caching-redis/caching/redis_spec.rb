@@ -15,7 +15,7 @@ RSpec.describe OpenWeatherClient::Caching::Redis do
     it 'creates a redis instance' do
       subject
 
-      expect(::Redis).to have_received(:new).once.with({ host: nil, port: nil, db: nil })
+      expect(::Redis).to have_received(:new).once.with({ host: 'localhost', port: 6379, db: 0 })
     end
 
     it 'persists the redis instance' do

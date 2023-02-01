@@ -34,10 +34,10 @@ RSpec.describe OpenWeatherClient::Configuration do
   end
 
   it 'has a default configuration' do
-    is_expected.to have_attributes(db: nil)
-    is_expected.to have_attributes(host: nil)
+    is_expected.to have_attributes(db: 0)
+    is_expected.to have_attributes(host: 'localhost')
     is_expected.to have_attributes(password: nil)
-    is_expected.to have_attributes(port: nil)
+    is_expected.to have_attributes(port: 6379)
     is_expected.to have_attributes(ttl: 7)
   end
 
@@ -47,25 +47,37 @@ RSpec.describe OpenWeatherClient::Configuration do
     end
 
     context 'available' do
+      before :each do
+        stub_const 'Rails', RailsTest
+        allow(Rails.application.credentials.open_weather_client!).to receive(:'[]').with(:appid).and_return('123456')
+      end
+
       let(:db) { 0 }
       let(:host) { 'redis.local' }
       let(:password) { 'password!' }
       let(:port) { 6379 }
 
       it 'loads redis config from credentials' do
-        stub_const 'Rails', RailsTest
-        allow(Rails.application.credentials.open_weather_client!).to receive(:'redis!').and_return({
-                                                                                                     db: db,
-                                                                                                     host: host,
-                                                                                                     password: password,
-                                                                                                     port: port
-                                                                                                   })
+        allow(Rails.application.credentials.open_weather_client!)
+          .to receive(:'[]').with(:redis).and_return({
+                                                       db: db,
+                                                       host: host,
+                                                       password: password,
+                                                       port: port
+                                                     })
         subject.load_from_rails_credentials
 
         is_expected.to have_attributes(db: db)
         is_expected.to have_attributes(host: host)
         is_expected.to have_attributes(password: password)
         is_expected.to have_attributes(port: port)
+      end
+
+      it 'raises key error if configuration is empty' do
+        allow(Rails.application.credentials.open_weather_client!)
+          .to receive(:'[]').with(:redis).and_return(nil)
+
+        expect { subject.load_from_rails_credentials }.to raise_error KeyError
       end
     end
   end

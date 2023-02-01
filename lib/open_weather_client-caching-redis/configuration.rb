@@ -22,6 +22,9 @@ module OpenWeatherClient
     def initialize
       old_initialize
 
+      self.db = 0
+      self.host = 'localhost'
+      self.port = 6379
       self.ttl = 7
     end
 
@@ -30,7 +33,9 @@ module OpenWeatherClient
     def load_from_rails_credentials
       old_load
 
-      settings = Rails.application.credentials.open_weather_client!.redis!
+      settings = Rails.application.credentials.open_weather_client![:redis]
+      raise KeyError unless settings
+
       self.host = settings[:host]
       self.port = settings[:port]
       self.db = settings[:db]
