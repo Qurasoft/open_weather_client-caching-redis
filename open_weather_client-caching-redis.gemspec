@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Abin/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'open_weather_client', '>= 0.1.4'
+  spec.add_dependency 'open_weather_client', '>= 0.1.5'
   spec.add_dependency 'redis', '>= 4.5.0'
 
   spec.add_development_dependency 'bundler', '>= 1.17'
