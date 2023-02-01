@@ -25,7 +25,7 @@ RSpec.describe OpenWeatherClient::Caching::Redis do
 
   describe '#caching_get' do
     before :each do
-      @cache_key = "#{lat}:#{lon}:#{time.strftime('%Y-%m-%dT%H')}"
+      @cache_key = "weather:#{lat}:#{lon}:#{time.strftime('%Y-%m-%dT%H')}"
 
       allow(subject.redis).to receive(:get).with(@cache_key).and_return('{"key": "value"}')
       allow(subject).to receive('present?').with(@cache_key).and_return(true)
@@ -44,7 +44,7 @@ RSpec.describe OpenWeatherClient::Caching::Redis do
 
   describe '#caching_store' do
     before :each do
-      @cache_key = "#{lat}:#{lon}:#{time.strftime('%Y-%m-%dT%H')}"
+      @cache_key = "weather:#{lat}:#{lon}:#{time.strftime('%Y-%m-%dT%H')}"
 
       allow(subject.redis).to receive(:set).with(@cache_key, '{"key":"value"}', ex: 604_800).and_return(true)
     end
@@ -63,7 +63,7 @@ RSpec.describe OpenWeatherClient::Caching::Redis do
 
   describe '#present?' do
     before :each do
-      @cache_key = "#{lat}:#{lon}:#{time.strftime('%Y-%m-%dT%H')}"
+      @cache_key = "weather:#{lat}:#{lon}:#{time.strftime('%Y-%m-%dT%H')}"
 
       allow(subject.redis).to receive(:exists?).with(@cache_key).and_return(true)
     end
