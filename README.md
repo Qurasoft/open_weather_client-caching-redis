@@ -11,7 +11,7 @@ This gem provides the redis caching method for [OpenWeatherClient](https://githu
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'open_weather_client'
+gem 'open_weather_client-caching-redis'
 ```
 
 And then execute:
@@ -28,6 +28,9 @@ Configure `OpenWeatherClient` to use redis caching.
 The redis connection can be configured through rails credentials or by manually setting the parameters in configuration.
 
 ```ruby
+require 'open_weather_client-caching-redis/caching/redis'
+require 'open_weather_client'
+
 # OpenWeatherClient initializer
 OpenWeatherClient.configure do |config|
   config.caching = OpenWeatherClient::Caching::Redis
@@ -35,10 +38,10 @@ OpenWeatherClient.configure do |config|
   config.ttl = 14
   
   # redis connection configuration
-  config.db = 0
-  config.host = 'localhost'
-  config.password = '123456'
-  config.port = 6379
+  config.db = 0 # default
+  config.host = 'localhost' # default
+  config.password = '123456' # default: nil
+  config.port = 6379 # default
 end
 ```
 
@@ -56,10 +59,12 @@ open_weather_client:
 ```
 
 After configuration of the credentials you can load the settings in your initializer with `#load_from_rails_configuration`.
+Raises KeyError if redis caching is used but credentials are not set.
 
 ```ruby
 # OpenWeatherClient initializer
 OpenWeatherClient.configure do |config|
+  config.caching = OpenWeatherClient::Caching::Redis
   config.load_from_rails_credentials
 end
 ```
