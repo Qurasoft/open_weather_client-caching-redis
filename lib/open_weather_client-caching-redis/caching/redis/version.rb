@@ -3,7 +3,7 @@
 module OpenWeatherClient
   class Caching
     class Redis < OpenWeatherClient::Caching
-      VERSION = '0.1.1'
+      VERSION = '0.1.2'
     end
   end
 end
